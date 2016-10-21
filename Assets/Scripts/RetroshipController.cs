@@ -15,8 +15,11 @@ public class RetroshipController : MonoBehaviour
 	
 	void Update ()
 	{
-		var direction = CrossPlatformInputManager.GetAxis("Vertical");
-		transform.Translate(Vector3.forward * direction * Speed);
+		var vertical = CrossPlatformInputManager.GetAxis("Vertical");
+		transform.Translate(Vector3.forward * vertical * Speed);
+
+		var horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
+		transform.Translate(Vector3.right * horizontal * Speed);
 
 		_ray = new Ray(transform.position, Vector3.down);
 		RaycastHit hit;
