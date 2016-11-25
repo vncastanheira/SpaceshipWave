@@ -21,10 +21,15 @@ public class LaserController : MonoBehaviour
 
 	void OnCollisionEnter(Collision collision)
 	{
-		if (collision.collider.CompareTag("Enemy"))
-		{
-			Instantiate(particle, collision.transform.position, particle.transform.rotation);
-			Destroy(gameObject);
-		}
+		
 	}
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Enemy") || other.CompareTag("Player"))
+        {
+            Instantiate(particle, other.transform.position, particle.transform.rotation);
+            Destroy(gameObject);
+        }
+    }
 }
