@@ -4,16 +4,21 @@ using System.Collections;
 public class EnemyController : MonoBehaviour
 {
 	ProjectileLauncher launcher;
+    Rigidbody body;
 
-	void Awake()
+
+
+    void Awake()
 	{
 		launcher = GetComponent<ProjectileLauncher>();
-	}
+        body = GetComponent<Rigidbody>();
+    }
 
-	void Update()
+    void Update()
 	{
 		launcher.Launch(Vector3.forward * -1);
-	}
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {
