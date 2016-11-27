@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEditor;
 
 public class LaserController : MonoBehaviour
 {
@@ -26,7 +27,12 @@ public class LaserController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Enemy") || other.CompareTag("Player"))
+        Selection.activeGameObject = other.gameObject;
+        if (other.CompareTag("Barrier"))
+        {
+            Destroy(gameObject);
+        }
+        else if (other.CompareTag("Enemy") || other.CompareTag("Player"))
         {
             Instantiate(particle, other.transform.position, particle.transform.rotation);
             Destroy(gameObject);

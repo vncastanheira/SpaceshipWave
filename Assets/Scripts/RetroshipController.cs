@@ -14,6 +14,7 @@ public class RetroshipController : MonoBehaviour
     [HideInInspector]
     public int Health;
 
+    BarrierController barrier;
 	Rigidbody body;
 	ProjectileLauncher launcher;
 
@@ -23,6 +24,7 @@ public class RetroshipController : MonoBehaviour
 	{
 		body = GetComponent<Rigidbody>();
 		launcher = GetComponent<ProjectileLauncher>();
+        barrier = GetComponent<BarrierController>();
 
         Health = MaxHealth;
 	}
@@ -48,8 +50,16 @@ public class RetroshipController : MonoBehaviour
     {
         if (other.CompareTag("Projectile"))
         {
-            Health--;
-            ProjectileHit.Invoke();
+            if (barrier.Health > 0)
+            {
+                barrier.DamageShield();
+            }
+            else
+            {
+                Health--;
+                ProjectileHit.Invoke();
+            }
+
         }
     }
 }
