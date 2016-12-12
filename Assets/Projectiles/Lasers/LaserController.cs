@@ -6,7 +6,6 @@ public class LaserController : MonoBehaviour
 {
 	public float Force;
 	public float Lifetime;
-	public ParticleSystem particle;
 	Rigidbody rigidBody;
 
 	void Awake () {
@@ -27,15 +26,15 @@ public class LaserController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Selection.activeGameObject = other.gameObject;
-        if (other.CompareTag("Barrier"))
+        switch (other.tag)
         {
-            Destroy(gameObject);
-        }
-        else if (other.CompareTag("Enemy") || other.CompareTag("Player"))
-        {
-            Instantiate(particle, other.transform.position, particle.transform.rotation);
-            Destroy(gameObject);
+            case "Enemy":
+            case "Player":
+            case "Barrier":
+                Destroy(gameObject);
+                break;
+            default:
+                break;
         }
     }
 }

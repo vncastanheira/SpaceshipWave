@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour
 {
 	ProjectileLauncher launcher;
     Rigidbody body;
 
-
-
+    public ParticleSystem DeathEffect;
+    public UnityEvent OnHit;
+    public UnityEvent OnDeath;
+    
     void Awake()
 	{
 		launcher = GetComponent<ProjectileLauncher>();
@@ -25,6 +28,7 @@ public class EnemyController : MonoBehaviour
         if (other.CompareTag("Projectile"))
         {
             Destroy(gameObject);
+            Instantiate(DeathEffect, transform.position, transform.rotation);
         }
     }
 }

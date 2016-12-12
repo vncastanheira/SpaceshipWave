@@ -16,7 +16,7 @@ public class PlayerAnimation : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        ShipAnimator.SetFloat("horizontal", _controller.Velocity);
+        ShipAnimator.SetFloat("velocity", _controller.body.velocity.x);
     }
 
     public void Shake()
