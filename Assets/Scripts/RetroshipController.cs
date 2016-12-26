@@ -21,6 +21,7 @@ public class RetroshipController : MonoBehaviour
         }
     }
     float horizontal;
+    float vertical;
 
     // Components
     [HideInInspector]
@@ -48,16 +49,18 @@ public class RetroshipController : MonoBehaviour
     // Physics-related update
     void FixedUpdate()
     {
-        body.AddForce(Vector3.right * horizontal * Speed, ForceMode.Acceleration);
+        Vector3 force = (Vector3.right * horizontal) + (Vector3.up * vertical);
+        body.AddForce(force * Speed, ForceMode.Acceleration);
     }
 
     // Input update
     void Update ()
 	{
         horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
+        vertical = CrossPlatformInputManager.GetAxis("Vertical");
 
-		// Shooting
-		if (CrossPlatformInputManager.GetButton("Fire1"))
+        // Shooting
+        if (CrossPlatformInputManager.GetButton("Fire1"))
 		{
     		launcher.Launch(Vector3.forward);
             Shooting.Invoke();
