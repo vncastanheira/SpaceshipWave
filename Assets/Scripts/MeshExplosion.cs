@@ -12,7 +12,14 @@ using System.Collections;
      public bool destroy;
 
      // A cached prefab with the triangles that will exploded
-     public GameObject CachedExplosionMesh;
+	[Header("Experimental")]
+	public GameObject CachedExplosionMesh;
+
+	public void CopyExplode() {
+		var model = Instantiate (gameObject, transform.position, transform.rotation);
+		model.GetComponent<MeshExplosion> ().Explode ();
+
+	}
 
 	 public void Explode() 
      {
@@ -56,7 +63,6 @@ using System.Collections;
              int[] indices = M.GetTriangles(submesh);
 
              GameObject Pieces = new GameObject("Pieces");
-             Pieces.transform.SetParent(transform.parent);
  
              for (int i = 0; i < indices.Length; i += 3)    {
                  Vector3[] newVerts = new Vector3[3];
@@ -88,17 +94,13 @@ using System.Collections;
 				 var body = GO.AddComponent<Rigidbody>();
                  Vector3 explosionPos = new Vector3(transform.position.x + Random.Range(-0.5f, 0.5f), transform.position.y + Random.Range(0f, 0.5f), transform.position.z + Random.Range(-0.5f, 0.5f));
                  body.AddExplosionForce(Random.Range(minForce, maxForce), explosionPos, radius);
-                 //Destroy(GO, 5 + Random.Range(0.0f, 5.0f));
+				if (destroy == true) {
+					Destroy(GO, 3.0f + Random.Range(0.0f, 0.5f));
+				}
              }
          }
  
          GetComponent<Renderer>().enabled = false;
-         
-         yield return new WaitForSeconds(1.0f);
-         if(destroy == true) {
-             Destroy(gameObject);
-         }
- 
      }
  
  

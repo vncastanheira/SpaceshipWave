@@ -25,9 +25,10 @@ public class EnemyController : MonoBehaviour
     {
         if (other.CompareTag("Projectile"))
         {
-            print("OnDeath invoked!");
             OnDeath.Invoke();
+			EventManager.TriggerEvent (EventManager.Events.EnemyKilled);
             Instantiate(DeathEffect, transform.position, transform.rotation);
+			Destroy (gameObject);
         }
     }
 }

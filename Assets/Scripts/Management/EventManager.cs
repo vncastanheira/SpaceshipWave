@@ -81,5 +81,6 @@ public class EventManager : MonoBehaviour
 	{
 		public static string NewGame = "NewGame";
         public static string NextLevel = "NextLevel";
+		public static string EnemyKilled = "EnemyKilled";
 	}
 }
