@@ -6,19 +6,12 @@ public class PlayerAnimation : MonoBehaviour {
 
     public Animator ShipAnimator;
     public Animator CanvasAnimator;
-    RetroshipController _controller;
-
-    void Start ()
+    
+	public void SetVelocity (float velocity)
     {
-        _controller = GetComponent<RetroshipController>();	
-	}
-	
-	// Update is called once per frame
-	void Update ()
-    {
-        ShipAnimator.SetFloat("velocity", _controller.body.velocity.x);
+        ShipAnimator.SetFloat("velocity", velocity);
     }
-
+    
     public void Shake()
     {
         CanvasAnimator.SetTrigger("hit");

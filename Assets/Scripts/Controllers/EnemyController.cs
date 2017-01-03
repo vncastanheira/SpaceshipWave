@@ -10,7 +10,7 @@ public class EnemyController : MonoBehaviour
     public UnityEvent OnHit;
     public UnityEvent OnDeath;
     
-    void Awake()
+    void Start()
 	{
 		launcher = GetComponent<ProjectileLauncher>();
     }
@@ -18,7 +18,6 @@ public class EnemyController : MonoBehaviour
     void Update()
 	{
 		launcher.Launch(Vector3.forward * -1);
-
     }
 
     private void OnTriggerEnter(Collider other)

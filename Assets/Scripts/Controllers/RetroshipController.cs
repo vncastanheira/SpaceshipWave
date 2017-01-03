@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityEngine.Events;
-using UnityEditor;
 
 public class RetroshipController : MonoBehaviour
 {
@@ -29,14 +27,15 @@ public class RetroshipController : MonoBehaviour
             return barrier.Health > 0;
         }
     }
-    float horizontal;
-    float vertical;
 
     // Components
     [HideInInspector]
-	public Rigidbody body;
     BarrierController barrier;
+    [HideInInspector]
+    Rigidbody body;
 	ProjectileLauncher launcher;
+
+    PlayerInput playerInput;
 
     // Ship events
     public UnityEvent ProjectileHit;
@@ -49,9 +48,14 @@ public class RetroshipController : MonoBehaviour
 
 	void Start ()
 	{
-		body = GetComponent<Rigidbody>();
 		launcher = GetComponent<ProjectileLauncher>();
         barrier = GetComponent<BarrierController>();
+        body = GetComponent<Rigidbody>();
+        playerInput = GetComponent<PlayerInput>();
+        if (playerInput == null)
+        {
+            playerInput = gameObject.AddComponent<PlayerInput_Null>();
+        }
 
         Health = MaxHealth;
         OnDeath.AddListener(() => {
@@ -64,9 +68,6 @@ public class RetroshipController : MonoBehaviour
     {
         if(!IsAlive)
             return;
-
-        Vector3 force = (Vector3.right * horizontal) + (Vector3.up * vertical);
-        body.AddForce(force * Speed, ForceMode.Acceleration);
     }
 
     // Input update
@@ -75,8 +76,8 @@ public class RetroshipController : MonoBehaviour
         if(!IsAlive)
             return;
 
-        horizontal = CrossPlatformInputManager.GetAxis("Horizontal");
-        vertical = CrossPlatformInputManager.GetAxis("Vertical");
+        playerInput.GetInput();
+        playerInput.Run();
 
         // Shooting
         if (CrossPlatformInputManager.GetButton("Fire1"))
