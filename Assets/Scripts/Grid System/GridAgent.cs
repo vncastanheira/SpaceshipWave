@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GridAgent : MonoBehaviour
 {
+    [HideInInspector]
     public Vector2 GridPosition;
     [HideInInspector]
     public Vector3 Direction;

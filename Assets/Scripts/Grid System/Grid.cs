@@ -25,14 +25,6 @@ public class Grid : MonoBehaviour
         }
     }
 
-    //public static Vector3 Position
-    //{
-    //    get
-    //    {
-    //        return instance.transform.position;
-    //    }
-    //}
-
     public static Vector3 Snap(Vector3 position)
     {
         var cell = instance.CellSize;
@@ -58,5 +50,14 @@ public class Grid : MonoBehaviour
     public Vector2 GetCellSize()
     {
         return instance.CellSize;
+    }
+
+    public bool IsValidPosition(Vector2 pos)
+    {
+        Vector3 target = new Vector3(pos.x * CellSize.x, pos.y * CellSize.y, 18);
+
+        return !Physics.CheckBox(target, Vector3.one)
+            && (pos.x >= 0 && pos.x <= GridDimension.x)
+            && (pos.y >= 0 && pos.y <= GridDimension.y);
     }
 }

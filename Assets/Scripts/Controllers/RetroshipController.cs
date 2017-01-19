@@ -94,7 +94,7 @@ public class RetroshipController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Projectile"))
+        if (other.CompareTag("Enemy Projectile"))
         {
             if(!IsAlive)
                 return;

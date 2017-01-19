@@ -20,9 +20,9 @@ public class EnemyController : MonoBehaviour
 		launcher.Launch(transform.forward);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void HitHull(Collider other)
     {
-        if (other.CompareTag("Projectile"))
+        if (other.CompareTag("Player Projectile"))
         {
             OnDeath.Invoke();
 			EventManager.TriggerEvent (EventManager.Events.EnemyKilled);
