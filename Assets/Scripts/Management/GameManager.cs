@@ -31,6 +31,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
+
     public void NewGame()
     {
         var scene = Scenes.FirstOrDefault();
@@ -86,5 +94,10 @@ public class GameManager : MonoBehaviour
     void SceneManager_sceneLoaded(Scene scene, LoadSceneMode mode)
     {
         SceneManager.SetActiveScene(scene);
+    }
+
+    void OnGUI()
+    {
+        GUI.Label(new Rect(0, 0, 400, 50), "ESC to exit | R to restart");
     }
 }

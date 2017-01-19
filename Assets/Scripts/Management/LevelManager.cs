@@ -3,15 +3,31 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-public class LevelManager : MonoBehaviour 
+public class LevelManager : MonoBehaviour
 {
     public Level levelConfiguration;
 
     public UnityEvent OnWinning;
-	int enemyCounter = 0;
+    public UnityEvent OnRestart;
+    int enemyCounter = 0;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start()
+    {
+        GenerateEnemies();
+        EventManager.StartListening(EventManager.Events.EnemyKilled, EnemyKilled);
+    }
+
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R) && enemyCounter == 0)
+        {
+            GenerateEnemies();
+            OnRestart.Invoke();
+        }
+    }
+
+    void GenerateEnemies()
     {
         GameObject Enemies = new GameObject("Enemies");
         Enemies.transform.position = new Vector3(0, 0, 18);
@@ -26,15 +42,15 @@ public class LevelManager : MonoBehaviour
             }
             enemyCounter += placement.Locations.Length;
         }
-        EventManager.StartListening(EventManager.Events.EnemyKilled, EnemyKilled);
     }
-	
-	void EnemyKilled() {
-		enemyCounter--;
-		if (enemyCounter <= 0)
-		{
-			print("Congratulations! You won!");
+
+    void EnemyKilled()
+    {
+        enemyCounter--;
+        if (enemyCounter <= 0)
+        {
+            print("Congratulations! You won!");
             OnWinning.Invoke();
         }
-	}
+    }
 }

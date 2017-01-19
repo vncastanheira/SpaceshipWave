@@ -27,4 +27,11 @@ public class TEXT_FLASH : MonoBehaviour {
         audio.Play();
         triggered = true;
     }
+
+    public void UnTrigger()
+    {
+        text.text = "";
+        audio.Stop();
+        triggered = false;
+    }
 }

@@ -2,37 +2,32 @@
 
 public class LaserController : MonoBehaviour
 {
-	public float Force;
-	public float Lifetime;
-	Rigidbody rigidBody;
+    public float Force;
+    public float Lifetime;
+    Rigidbody rigidBody;
 
-	void Awake () {
-		rigidBody = GetComponent<Rigidbody>();
-	}
+    void Awake()
+    {
+        rigidBody = GetComponent<Rigidbody>();
+    }
 
-	public void Launch(Vector3 direction)
-	{
-		rigidBody.AddForce(direction * Force);
+    public void Launch(Vector3 direction)
+    {
+        rigidBody.AddForce(direction * Force);
 
-		Destroy(gameObject, Lifetime);
-	}
+        Destroy(gameObject, Lifetime);
+    }
 
-	void OnCollisionEnter(Collision collision)
-	{
-		
-	}
+    void OnCollisionEnter(Collision collision)
+    {
+
+    }
 
     private void OnTriggerEnter(Collider other)
     {
-        switch (other.tag)
+        if (other.CompareTag("Enemy") || other.CompareTag("Player") || other.CompareTag("Barrier"))
         {
-            case "Enemy":
-            case "Player":
-            case "Barrier":
-                Destroy(gameObject);
-                break;
-            default:
-                break;
+            Destroy(gameObject);
         }
     }
 }
