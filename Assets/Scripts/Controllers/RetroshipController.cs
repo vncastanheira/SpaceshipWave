@@ -82,7 +82,7 @@ public class RetroshipController : MonoBehaviour
         // Shooting
         if (CrossPlatformInputManager.GetButton("Fire1"))
 		{
-    		launcher.Launch(Vector3.forward);
+    		launcher.Launch(transform.forward);
             Shooting.Invoke();
         }
     }

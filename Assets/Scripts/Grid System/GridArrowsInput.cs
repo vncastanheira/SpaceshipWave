@@ -35,9 +35,4 @@ public class GridArrowsInput : GridInput
 
         base.GetInput();
     }
-
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(0, 50, 200, 50), "Horizontal: " + horizontal);
-    }
 }

@@ -17,7 +17,7 @@ public class EnemyController : MonoBehaviour
 
     void Update()
 	{
-		launcher.Launch(Vector3.forward * -1);
+		launcher.Launch(transform.forward);
     }
 
     private void OnTriggerEnter(Collider other)

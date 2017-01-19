@@ -8,47 +8,37 @@ public class GridAgent : MonoBehaviour
     [HideInInspector]
     public Vector3 Direction;
     public float Speed;
-
-    //bool canMoveNextPosition;
+    public bool canMove = true;
+    public bool CanMove { get { return canMove; } set { canMove = value; } }
 
     public void Start()
     {
-        transform.position = new Vector3(
+        transform.localPosition = new Vector3(
             GridPosition.x * Grid.instance.CellSize.x,
             GridPosition.y * Grid.instance.CellSize.y,
-            transform.position.z);
-
-        //var mid = Mathf.RoundToInt(Grid.instance.GridDimension.x / 2);
-        //GridPosition = new Vector2(mid, 0);
-        //transform.position = new Vector3(
-        //    GridPosition.x * Grid.instance.CellSize.x,
-        //    transform.position.y,
-        //    transform.position.z);
+            0);
     }
 
     public void Update()
     {
+        if (!canMove)
+            return;
+
         float step = Speed * Time.deltaTime;
         Vector3 target = new Vector3(
             GridPosition.x * Grid.instance.CellSize.x,
             GridPosition.y * Grid.instance.CellSize.y,
-            transform.position.z);
+            0);
 
-        Direction = target - transform.position;
+        Direction = target - transform.localPosition;
         Direction.Normalize();
-        transform.position = Vector3.MoveTowards(transform.position, target, step);
+        transform.localPosition = Vector3.MoveTowards(transform.localPosition, target, step);
 
         //canMoveNextPosition = Vector3.Distance(transform.position, target) < Grid.instance.CellSize / 2;
     }
-    
+
     public void Move(Vector2 cells)
     {
         GridPosition = Grid.LimitPosition(GridPosition + cells);
-    }
-
-    private void OnGUI()
-    {
-        GUI.Label(new Rect(0, 0, 200, 20), "Grid Position: " + GridPosition.ToString());
-        GUI.Label(new Rect(0, 20, 200, 20), "Direction: " + Direction.ToString());
     }
 }
