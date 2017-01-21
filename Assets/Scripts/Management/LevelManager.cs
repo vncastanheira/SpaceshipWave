@@ -15,6 +15,7 @@ public class LevelManager : MonoBehaviour
     void Start()
     {
         GenerateEnemies();
+        Grid.instance.FindAgents();
         EventManager.StartListening(EventManager.Events.EnemyKilled, EnemyKilled);
     }
 

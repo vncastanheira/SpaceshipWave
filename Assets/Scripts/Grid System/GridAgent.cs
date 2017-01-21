@@ -12,6 +12,9 @@ public class GridAgent : MonoBehaviour
     public bool canMove = true;
     public bool CanMove { get { return canMove; } set { canMove = value; } }
 
+    bool _onDestination = true;
+    public bool OnDestination { get { return _onDestination; } }
+
     public void Start()
     {
         transform.localPosition = new Vector3(
@@ -35,7 +38,7 @@ public class GridAgent : MonoBehaviour
         Direction.Normalize();
         transform.localPosition = Vector3.MoveTowards(transform.localPosition, target, step);
 
-        //canMoveNextPosition = Vector3.Distance(transform.position, target) < Grid.instance.CellSize / 2;
+        _onDestination = Equals(transform.localPosition, target);
     }
 
     public void Move(Vector2 cells)

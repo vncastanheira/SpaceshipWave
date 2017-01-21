@@ -12,8 +12,8 @@ public class GridAI_Dodger : GridInput
     // This is a delay between each time the enemy will dodge 
     // the player's projectiles. Otherwise, it would be impossible
     // to hit it
-    public float MaxTimer = 0;
-    public float timer = 0;
+    public float ColldownMaxTimer = 0;
+    public float cooldownTimer = 0;
 
     // Enemy only can move on a Horizontal or Vertical Axis
     Vector2[] Directions =
@@ -26,8 +26,8 @@ public class GridAI_Dodger : GridInput
 
     void Update()
     {
-        if (timer > 0)
-            timer -= Time.deltaTime;
+        if (cooldownTimer > 0)
+            cooldownTimer -= Time.deltaTime;
     }
 
     // Expected to be triggered by a SendMessage when
@@ -36,7 +36,7 @@ public class GridAI_Dodger : GridInput
     {
         if (other.CompareTag("Player Projectile"))
         {
-            if (timer > 0)
+            if (cooldownTimer > 0)
                 return;
 
             // shuffle
@@ -54,7 +54,7 @@ public class GridAI_Dodger : GridInput
                 if (Grid.instance.IsValidPosition(agent.GridPosition + pos))
                 {
                     agent.Move(pos);
-                    timer = MaxTimer;
+                    cooldownTimer = ColldownMaxTimer;
                     return;
                 }
             }

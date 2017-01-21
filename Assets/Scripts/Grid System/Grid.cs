@@ -1,9 +1,16 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class Grid : MonoBehaviour
 {
+    // Distance from each cell, in each dimensions in the world coordinates
     public Vector2 CellSize;
+    // Maximum size of the grid
     public Vector2 GridDimension;
+    // All agents in the scene
+    GridAgent[] Agents;
 
     private static Grid _grid;
     public static Grid instance
@@ -25,6 +32,30 @@ public class Grid : MonoBehaviour
         }
     }
 
+    public void FindAgents()
+    {
+        Agents = FindObjectsOfType<GridAgent>();
+    }
+
+    /// <summary>
+    /// Check which positions around the current is not outside boundaries
+    /// </summary>
+    /// <param name="current">The center position</param>
+    /// <returns>A list with all positions not outside the boundaries</returns>
+    public IEnumerable<Vector2> Neighbors(Vector2 current)
+    {
+        Vector2[] Directions =
+        {
+            Vector2.left,
+            Vector2.right,
+            Vector2.up,
+            Vector2.down
+        };
+
+        return Directions.Select(d => d + current);
+    }
+
+    // Approximates a irregular position to a valid grid position
     public static Vector3 Snap(Vector3 position)
     {
         var cell = instance.CellSize;
@@ -52,12 +83,38 @@ public class Grid : MonoBehaviour
         return instance.CellSize;
     }
 
-    public bool IsValidPosition(Vector2 pos)
+    /// <summary>
+    /// Check if a position is not outside the boundaries
+    /// and is not occupied by another agent
+    /// </summary>
+    /// <param name="pos">Check position</param>
+    /// <returns>If position is valid and unnocupied</returns>
+    public bool IsValidPosition(Vector2 pos, bool ignorePlayer = false)
     {
-        Vector3 target = new Vector3(pos.x * CellSize.x, pos.y * CellSize.y, 18);
-
-        return !Physics.CheckBox(target, Vector3.one)
+        Vector3 target = Vector3.Scale(pos, CellSize);
+        target.z = 18;
+        
+        return !IsOccupied(pos, ignorePlayer)
             && (pos.x >= 0 && pos.x <= GridDimension.x)
             && (pos.y >= 0 && pos.y <= GridDimension.y);
+    }
+
+    public bool IsOccupied(Vector2 pos, bool ignorePlayer)
+    {
+        if (Agents != null)
+        {
+            var agent = Agents.FirstOrDefault(a => a.GridPosition.Equals(pos));
+            if (agent == null)
+            {
+                return false;
+            }
+            else if (agent.CompareTag("Player") && ignorePlayer)
+            {
+                return false;
+            }
+
+            return true;
+        }
+        return false;
     }
 }

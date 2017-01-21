@@ -20,7 +20,7 @@ public class EnemyController : MonoBehaviour
 		launcher.Launch(transform.forward);
     }
 
-    private void HitHull(Collider other)
+    public void HitHull(Collider other)
     {
         if (other.CompareTag("Player Projectile"))
         {
