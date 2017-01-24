@@ -12,9 +12,6 @@ public class GridArrowsInput : GridInput
     float horizontal;
     float vertical;
 
-    float _timer;
-    public float ProjectileDelay;
-    
     public override void Start()
     {
         anim = GetComponent<PlayerAnimation>();

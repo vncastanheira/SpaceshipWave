@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
+/// <summary>
+/// Grid system
+/// </summary>
 public class Grid : MonoBehaviour
 {
     // Distance from each cell, in each dimensions in the world coordinates
@@ -35,10 +39,33 @@ public class Grid : MonoBehaviour
     // Pauses the agents and inputs
     [HideInInspector]
     public bool isPaused = false;
+    public UnityEvent OnPause;
+    public UnityEvent OnResume;
 
-    public static void Pause() { instance.isPaused = true; }
-    public static void UnPause() { instance.isPaused = false; }
-    public static void PauseToggle() { instance.isPaused = !instance.isPaused; }
+    public static void Pause() { instance.isPaused = true; instance.OnPause.Invoke(); }
+    public static void Resume() { instance.isPaused = false; instance.OnResume.Invoke(); }
+    public static void PauseToggle()
+    {
+        instance.isPaused = !instance.isPaused;
+        if (instance.isPaused)
+        {
+            instance.OnPause.Invoke();
+        }
+        else
+        {
+            instance.OnResume.Invoke();
+        }
+    }
+
+    // TODO: move to a Game Manager
+    void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            PauseToggle();
+        }
+    }
+
 
     public void FindAgents()
     {

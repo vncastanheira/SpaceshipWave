@@ -3,11 +3,35 @@ using UnityEngine.Events;
 
 public class LevelManager : MonoBehaviour
 {
-    public int LevelOrder = 0;
+    private static LevelManager _levelManager;
+    public static LevelManager instance
+    {
+        get
+        {
+            if (!_levelManager)
+            {
+                _levelManager = FindObjectOfType(typeof(LevelManager)) as LevelManager;
+
+                if (!_levelManager)
+                {
+                    Debug.LogError("There needs to be one active LevelManager script on a GameObject in your scene.");
+                    return null;
+                }
+            }
+
+            return _levelManager;
+        }
+    }
+
+    public int levelOrder = 0;
+    public static int CurrentLevel { get { return instance.levelOrder; } }
+
     public Level[] Levels;
 
+    public UnityEvent OnStart;
     public UnityEvent OnWinning;
     public UnityEvent OnRestart;
+    public UnityEvent OnNextLevel;
     int enemyCounter = 0;
 
     // Use this for initialization
@@ -16,7 +40,12 @@ public class LevelManager : MonoBehaviour
         GenerateEnemies();
         Grid.instance.FindAgents();
         EventManager.StartListening(EventManager.Events.EnemyKilled, EnemyKilled);
-        Grid.Pause();
+
+        OnStart.AddListener(Grid.Pause);
+        OnRestart.AddListener(Grid.Pause);
+        OnNextLevel.AddListener(Grid.Pause);
+        
+        OnStart.Invoke();
     }
 
     void Update()
@@ -29,21 +58,17 @@ public class LevelManager : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Space) && enemyCounter == 0)
         {
-            LevelOrder++;
-            if (LevelOrder >= Levels.Length)
+            levelOrder++;
+            if (levelOrder >= Levels.Length)
             {
                 Debug.Log("No more levels");
-                LevelOrder--;
+                levelOrder--;
                 return;
             }
 
             GenerateEnemies();
             Grid.instance.FindAgents();
-            OnRestart.Invoke();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Grid.PauseToggle();
+            OnNextLevel.Invoke();
         }
     }
 
@@ -51,7 +76,7 @@ public class LevelManager : MonoBehaviour
     {
         GameObject Enemies = new GameObject("Enemies");
         Enemies.transform.position = new Vector3(0, 0, 18);
-        foreach (var placement in Levels[LevelOrder].Enemies)
+        foreach (var placement in Levels[levelOrder].Enemies)
         {
             foreach (var location in placement.Locations)
             {
