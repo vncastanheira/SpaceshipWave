@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
 using UnityEngine.Events;
 
 public class EnemyController : MonoBehaviour
@@ -14,12 +13,7 @@ public class EnemyController : MonoBehaviour
 	{
 		launcher = GetComponent<ProjectileLauncher>();
     }
-
-    void Update()
-	{
-		launcher.Launch(transform.forward);
-    }
-
+    
     public void HitHull(Collider other)
     {
         if (other.CompareTag("Player Projectile"))

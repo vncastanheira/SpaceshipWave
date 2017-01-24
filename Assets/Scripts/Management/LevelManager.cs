@@ -73,4 +73,10 @@ public class LevelManager : MonoBehaviour
             OnWinning.Invoke();
         }
     }
+
+    private void OnGUI()
+    {
+        string message = "Game is: " + (Grid.instance.isPaused ? "OFF" : "ON");
+        GUI.TextField(new Rect(0, 0, 300, 50), message);
+    }
 }

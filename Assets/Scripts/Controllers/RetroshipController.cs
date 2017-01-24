@@ -33,9 +33,6 @@ public class RetroshipController : MonoBehaviour
     BarrierController barrier;
     [HideInInspector]
     Rigidbody body;
-	ProjectileLauncher launcher;
-
-    PlayerInput playerInput;
 
     // Ship events
     public UnityEvent ProjectileHit;
@@ -48,15 +45,9 @@ public class RetroshipController : MonoBehaviour
 
 	void Start ()
 	{
-		launcher = GetComponent<ProjectileLauncher>();
         barrier = GetComponent<BarrierController>();
         body = GetComponent<Rigidbody>();
-        playerInput = GetComponent<PlayerInput>();
-        if (playerInput == null)
-        {
-            playerInput = gameObject.AddComponent<PlayerInput_Null>();
-        }
-
+        
         Health = MaxHealth;
         OnDeath.AddListener(() => {
             body.velocity = Vector3.zero;
@@ -75,22 +66,7 @@ public class RetroshipController : MonoBehaviour
 	{
         if(!IsAlive)
             return;
-
-        playerInput.GetInput();
-        playerInput.Run();
-
-        // Shooting
-        if (CrossPlatformInputManager.GetButton("Fire1"))
-		{
-    		launcher.Launch(transform.forward);
-            Shooting.Invoke();
-        }
     }
-
-	void OnCollisionEnter(Collision collision)
-	{
-        
-	}
 
     private void OnTriggerEnter(Collider other)
     {

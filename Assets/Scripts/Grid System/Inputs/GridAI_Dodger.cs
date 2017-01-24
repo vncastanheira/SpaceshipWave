@@ -36,6 +36,10 @@ public class GridAI_Dodger : GridInput
     {
         if (other.CompareTag("Player Projectile"))
         {
+            // Always shoot if detects player fire
+            projectileLauncher.Launch(transform.forward);
+
+            // Evading ability cooldown
             if (cooldownTimer > 0)
                 return;
 

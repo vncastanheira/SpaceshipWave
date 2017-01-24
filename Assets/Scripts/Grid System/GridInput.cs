@@ -6,10 +6,16 @@ using UnityEngine;
 public class GridInput : MonoBehaviour
 {
     protected GridAgent agent;
+    protected ProjectileLauncher projectileLauncher;
 
-	public virtual void Start () {
+    protected float _timer;
+    public float ProjectileDelay;
+
+    public virtual void Start () {
         agent = GetComponent<GridAgent>();
-	}
+        projectileLauncher = GetComponent<ProjectileLauncher>();
+        _timer = ProjectileDelay;
+    }
 
     private void Update()
     {
