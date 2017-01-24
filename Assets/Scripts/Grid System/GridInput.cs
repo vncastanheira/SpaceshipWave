@@ -13,6 +13,9 @@ public class GridInput : MonoBehaviour
 
     private void Update()
     {
+        if (Grid.instance.isPaused)
+            return;
+
         GetInput();
     }
 

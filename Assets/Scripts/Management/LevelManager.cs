@@ -1,11 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 
 public class LevelManager : MonoBehaviour
 {
-    public Level levelConfiguration;
+    public int LevelOrder = 0;
+    public Level[] Levels;
 
     public UnityEvent OnWinning;
     public UnityEvent OnRestart;
@@ -17,6 +16,7 @@ public class LevelManager : MonoBehaviour
         GenerateEnemies();
         Grid.instance.FindAgents();
         EventManager.StartListening(EventManager.Events.EnemyKilled, EnemyKilled);
+        Grid.Pause();
     }
 
     void Update()
@@ -24,7 +24,26 @@ public class LevelManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && enemyCounter == 0)
         {
             GenerateEnemies();
+            Grid.instance.FindAgents();
             OnRestart.Invoke();
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && enemyCounter == 0)
+        {
+            LevelOrder++;
+            if (LevelOrder >= Levels.Length)
+            {
+                Debug.Log("No more levels");
+                LevelOrder--;
+                return;
+            }
+
+            GenerateEnemies();
+            Grid.instance.FindAgents();
+            OnRestart.Invoke();
+        }
+        else if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            Grid.PauseToggle();
         }
     }
 
@@ -32,7 +51,7 @@ public class LevelManager : MonoBehaviour
     {
         GameObject Enemies = new GameObject("Enemies");
         Enemies.transform.position = new Vector3(0, 0, 18);
-        foreach (var placement in levelConfiguration.Enemies)
+        foreach (var placement in Levels[LevelOrder].Enemies)
         {
             foreach (var location in placement.Locations)
             {

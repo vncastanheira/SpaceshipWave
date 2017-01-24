@@ -32,6 +32,14 @@ public class Grid : MonoBehaviour
         }
     }
 
+    // Pauses the agents and inputs
+    [HideInInspector]
+    public bool isPaused = false;
+
+    public static void Pause() { instance.isPaused = true; }
+    public static void UnPause() { instance.isPaused = false; }
+    public static void PauseToggle() { instance.isPaused = !instance.isPaused; }
+
     public void FindAgents()
     {
         Agents = FindObjectsOfType<GridAgent>();

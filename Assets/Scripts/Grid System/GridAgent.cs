@@ -25,6 +25,9 @@ public class GridAgent : MonoBehaviour
 
     public void Update()
     {
+        if (Grid.instance.isPaused)
+            return;
+
         if (!canMove)
             return;
 
