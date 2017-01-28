@@ -60,7 +60,7 @@ public class Grid : MonoBehaviour
     // TODO: move to a Game Manager
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Space))
         {
             PauseToggle();
         }
