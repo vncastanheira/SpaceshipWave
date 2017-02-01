@@ -9,7 +9,7 @@ public class GridAgent : MonoBehaviour
     [HideInInspector]
     public Vector3 Direction;
     public float Speed;
-    public bool canMove = true;
+    protected bool canMove = true;
     public bool CanMove { get { return canMove; } set { canMove = value; } }
 
     bool _onDestination = true;

@@ -61,6 +61,12 @@ public class GridArrowsInput : GridInput
     /// </summary>
     void Shoot()
     {
+        if (Grid.instance.isPaused)
+            return;
+
+        if (!agent.CanMove)
+            return;
+
         _timer -= Time.deltaTime;
         
         if (CrossPlatformInputManager.GetButton("Fire1"))
