@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Events;
@@ -8,21 +6,21 @@ using UnityEngine.UI;
 
 public class LevelEditor : MonoBehaviour
 {
-
     #region Grid Properties
 
-    Vector2 CellSize;
-    Vector2 GridDimension;
+    [HideInInspector]
+    public Vector2 CellSize;
+    [HideInInspector]
+    public Vector2 GridDimension;
 
     #endregion
 
-    Level CurrentLevel;
     Level TempLevel;
-
-    public Text status;
-
     public LevelEditorCell Cell;
+    [HideInInspector]
+    public static GameObject SelectedShip;
 
+    #region UI Fields
     [Space]
 
     [Header("UI Fields")]
@@ -31,8 +29,18 @@ public class LevelEditor : MonoBehaviour
     public InputField GridLines;
     public InputField GridColumns;
 
+    #endregion
+
+    [Space]
+    [Header("Enemies")]
+    EnemyPlacement[] Enemies = new EnemyPlacement[100];
+
+    #region Events
+
     public static UnityEvent OnGridChange = new UnityEvent();
     public static UnityEvent OnSelectedCellCheck = new UnityEvent();
+
+    #endregion
 
     #region Unity Methods
 
@@ -51,21 +59,6 @@ public class LevelEditor : MonoBehaviour
         CellVertical.text = CellSize.y.ToString();
         GridLines.text = GridDimension.x.ToString();
         GridColumns.text = GridDimension.y.ToString();
-    }
-
-    void Update()
-    {
-        status.text = string.Format("Cell size: ({0}, {1})", CellSize.x, CellSize.y);
-        OnSelectedCellCheck.Invoke();
-
-        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit))
-        {
-            hit.collider.GetComponent<LevelEditorCell>().Selected = true;
-        }
-
-        
     }
 
     #endregion
@@ -121,6 +114,15 @@ public class LevelEditor : MonoBehaviour
                 Instantiate(Cell, new Vector3(x * CellSize.x, y * CellSize.y, 0), Cell.transform.rotation);
             }
         }
+    }
+
+    #endregion
+
+    #region Ship Placing
+
+    public void SelectShip(GameObject ship)
+    {
+        SelectedShip = ship;
     }
 
     #endregion

@@ -8,9 +8,6 @@ public class PropRotation : MonoBehaviour {
 
     void Update ()
     {
-        if (Grid.instance.isPaused)
-            return;
-
         transform.Rotate(Axis, angle);
 	}
 }
