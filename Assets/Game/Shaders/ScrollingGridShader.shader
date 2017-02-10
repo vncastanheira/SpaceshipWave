@@ -1,4 +1,4 @@
-﻿Shader "Custom/ScrollingGridShader" {
+﻿Shader "Vinicius/ScrollingGridShader" {
 	Properties {
 		_MainTint ("Diffuse Tint", Color) = (1,1,1,1)
 		_MainTex ("Base (RGB)", 2D) = "white" {}
